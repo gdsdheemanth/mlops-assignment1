@@ -2,3 +2,15 @@ name: mlops-cicd
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Print a message
+      run: echo "This workflow runs only on pull requests!"
