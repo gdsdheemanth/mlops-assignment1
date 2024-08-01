@@ -1,1 +1,4 @@
 name: mlops-cicd
+
+on:
+  pull_request:
