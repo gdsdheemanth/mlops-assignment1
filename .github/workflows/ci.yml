@@ -1,4 +1,4 @@
-name: mlops-cicd
+name: mlops-ci
 
 on:
   pull_request:
