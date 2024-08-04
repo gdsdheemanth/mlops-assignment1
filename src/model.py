@@ -2,6 +2,7 @@
 class Model:
     pass
 
+
 class Calculator:
     def add(self, a, b):
         return a + b
