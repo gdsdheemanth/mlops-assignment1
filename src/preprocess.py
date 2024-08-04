@@ -17,7 +17,7 @@ class Preprocessor:
         corr_matrix = self.df.corr().abs()
         upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1)
                                   .astype(np.bool_))
-        self.to_drop = [column for column in upper.columns if any(upper[column] 
+        self.to_drop = [column for column in upper.columns if any(upper[column]
                                                                   > 0.8)]
 
         # Drop high correlation features
@@ -32,6 +32,6 @@ class Preprocessor:
 
     def get_to_drop(self):
         return self.to_drop
-       
+    
     def get_dataFrame(self):
         return self.df

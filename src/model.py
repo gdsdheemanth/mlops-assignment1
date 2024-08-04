@@ -40,7 +40,8 @@ def plot_roc_curve(y_true, y_proba, output_path, n_classes):
 
     plt.figure()
     for i in range(n_classes):
-        plt.plot(fpr[i], tpr[i], label=f'ROC curve (area = %0.2f) for class {i}' % roc_auc[i])
+        plt.plot(fpr[i], tpr[i],
+                 label=f'ROC curve (area = %0.2f) for class {i}' % roc_auc[i])
     plt.plot([0, 1], [0, 1], 'k--')
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
@@ -54,7 +55,8 @@ def plot_precision_recall_curve(y_true, y_proba, output_path, n_classes):
     precision = dict()
     recall = dict()
     for i in range(n_classes):
-        precision[i], recall[i], _ = precision_recall_curve(y_true[:, i], y_proba[:, i])
+        precision[i], recall[i], _ = precision_recall_curve(y_true[:, i],
+                                                            y_proba[:, i])
 
     plt.figure()
     for i in range(n_classes):
@@ -68,13 +70,14 @@ def plot_precision_recall_curve(y_true, y_proba, output_path, n_classes):
 
 
 def plot_learning_curve(estimator, X, y, output_path):
-    train_sizes, train_scores, test_scores = learning_curve(estimator, X, y, cv=5)
+    train_sizes, train_scores, test_scores = learning_curve(estimator, X, y,
+                                                            cv=5)
     train_scores_mean = np.mean(train_scores, axis=1)
     test_scores_mean = np.mean(test_scores, axis=1)
 
     plt.figure()
     plt.plot(train_sizes, train_scores_mean, 'o-', label="Training score")
-    plt.plot(train_sizes, test_scores_mean, 'o-', 
+    plt.plot(train_sizes, test_scores_mean, 'o-',
              label="Cross-validation score")
     plt.xlabel('Training examples')
     plt.ylabel('Score')
@@ -84,17 +87,17 @@ def plot_learning_curve(estimator, X, y, output_path):
     plt.close()
 
 
-def plot_validation_curve(estimator, X, y, param_name, param_range, 
+def plot_validation_curve(estimator, X, y, param_name, param_range,
                           output_path):
-    train_scores, test_scores = validation_curve(estimator, X, y, 
-                                                 param_name=param_name, 
+    train_scores, test_scores = validation_curve(estimator, X, y,
+                                                 param_name=param_name,
                                                  param_range=param_range, cv=5)
     train_scores_mean = np.mean(train_scores, axis=1)
     test_scores_mean = np.mean(test_scores, axis=1)
 
     plt.figure()
     plt.plot(param_range, train_scores_mean, 'o-', label="Training score")
-    plt.plot(param_range, test_scores_mean, 'o-', 
+    plt.plot(param_range, test_scores_mean, 'o-',
              label="Cross-validation score")
     plt.xlabel('Parameter value')
     plt.ylabel('Score')
@@ -112,7 +115,7 @@ class Model:
         try:
             # Set tracking URI (optional)
             mlflow.set_tracking_uri("file:../mlruns")
-            experiment_name = "Final_model"
+            experiment_name = "RandomForestClassifier"
             mlflow.set_experiment(experiment_name)
             # Verify if experiment is created
             experiment = mlflow.get_experiment_by_name(experiment_name)
@@ -132,15 +135,15 @@ class Model:
                 df_4 = df[df.quality == 4]
                 df_5 = df[df.quality == 5]
                 df_9 = df[df.quality == 9]
-                df_8_sample = resample(df_8, replace=True, n_samples=880, 
+                df_8_sample = resample(df_8, replace=True, n_samples=880,
                                        random_state=42)
-                df_4_sample = resample(df_4, replace=True, n_samples=880, 
+                df_4_sample = resample(df_4, replace=True, n_samples=880,
                                        random_state=42)
-                df_5_sample = resample(df_5, replace=True, n_samples=880, 
+                df_5_sample = resample(df_5, replace=True, n_samples=880,
                                        random_state=42)
-                df_9_sample = resample(df_9, replace=True, n_samples=880, 
+                df_9_sample = resample(df_9, replace=True, n_samples=880,
                                        random_state=42)
-                df = pd.concat([df_major, df_9_sample, df_8_sample, 
+                df = pd.concat([df_major, df_9_sample, df_8_sample,
                                 df_5_sample, df_4_sample])
                 preprocessed_data = Preprocessor(dataframe=df)
                 X_train, _, y_train, _ = preprocessed_data.split_data(
@@ -152,7 +155,7 @@ class Model:
                 mlflow.log_param("dataset_size", len(X_train) + len(X_test))
                 mlflow.log_param("test_size", len(X_test))
 
-                parameters = {'n_estimators': (30, 60, 100, 130, 160), 
+                parameters = {'n_estimators': (30, 60, 100, 130, 160),
                               'criterion': ('gini', 'entropy', 'log_loss')}
                 Randomforest = RandomForestClassifier(random_state=42)
                 clf = GridSearchCV(Randomforest, parameters)
@@ -193,7 +196,7 @@ class Model:
 
                 # Log Precision-Recall curve as artifact
                 prc_path = "../results/precision_recall_curve.png"
-                plot_precision_recall_curve(y_test_bin, y_proba, prc_path, 
+                plot_precision_recall_curve(y_test_bin, y_proba, prc_path,
                                             n_classes)
                 mlflow.log_artifact(prc_path)
 
@@ -204,9 +207,9 @@ class Model:
 
                 # Log Validation Curve as artifact
                 vc_path = "../results/validation_curve.png"
-                plot_validation_curve(model, X_train, y_train, 
-                                      param_name="n_estimators", 
-                                      param_range=[10, 50, 100, 200], 
+                plot_validation_curve(model, X_train, y_train,
+                                      param_name="n_estimators",
+                                      param_range=[10, 50, 100, 200],
                                       output_path=vc_path)
                 mlflow.log_artifact(vc_path)
 
