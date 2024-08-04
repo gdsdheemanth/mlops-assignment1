@@ -1,7 +1,7 @@
+class Trainer:
+    def train_model(self, model, X_train, y_train):
+        model.fit(X_train, y_train)
+        return model
 
-class Train:
-    pass
-
-
-class Predict:
-    pass
+    def predict_model(self, model, X_test):
+        return model.predict(X_test)

@@ -1,5 +1,5 @@
 import pytest
-from src.model import Calculator
+from src.model_experiments import Calculator
 
 
 @pytest.fixture
