@@ -173,7 +173,7 @@ class Model:
                 # Log model
                 mlflow.sklearn.log_model(model, "model")
 
-                # Evaluate  
+                # Evaluate
                 metrics = evaluator.evaluate_model(y_test, y_pred)
                 accuracy, precision, recall, f1 = metrics
                 mlflow.log_metric("accuracy", accuracy)
