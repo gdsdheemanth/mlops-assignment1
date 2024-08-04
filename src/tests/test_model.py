@@ -8,7 +8,7 @@ def calculator():
 
 
 def test_add(calculator):
-    assert calculator.add(1, 2) == 2
+    assert calculator.add(1, 2) == 3
     assert calculator.add(-1, -1) == -2
     assert calculator.add(0, 0) == 0
 
