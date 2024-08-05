@@ -3,3 +3,4 @@ flake8
 numpy
 pandas
 scikit-learn
+Flask
