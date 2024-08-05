@@ -37,3 +37,10 @@ jobs:
           --region us-central1 \
           --allow-unauthenticated
           
+    - name: Set permissions for unauthenticated invocations
+      run: |
+        gcloud run services add-iam-policy-binding wine-quality-prediction \
+          --member="allUsers" \
+          --role="roles/run.invoker" \
+          --region us-central1 \
+          --platform managed

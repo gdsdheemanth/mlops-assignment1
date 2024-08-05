@@ -1,12 +1,10 @@
 name: CI Pipeline
 
 on:
-  push:
-    branches:
-      - feature/*
   pull_request:
     branches:
       - master
+      - feature/*
 
 jobs:
   lint:
