@@ -1,0 +1,5 @@
+[core]
+    remote = myremote
+['remote "myremote"']
+    url = gs://mlops-assignment1-431206/data
+    credentialpath = /Users/dheemanth/Downloads/mlops_cicd_service_account_key.json
